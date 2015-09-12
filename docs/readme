@@ -1,0 +1,14 @@
+Założenia
+1. Jeżeli nie odnaleziono w bazie danych zasobu to dostęp jest zabroniony dla wszystkich
+2. W rolach działa standardowe dziedziczenie z programowania
+3. Baza danych powinna zwracać informacje końcowe o dostępach dla ról
+
+
+
+-- Do zrobienia
+ - Dodanie soli do hasła (obecnie takie samo hasło 2 osób posiada ten sam hash)
+ - Wysłanie e-mailu aktywacyjnego
+ - Wysłanie e-mailu z nowym hasłem
+ - Proces aktywacji konta
+ - Jakiś panel administracyjny kontami (blokowanie, odblokowywanie, zmiana ról itp.)
+ - Obsługa banowanych kont itp.

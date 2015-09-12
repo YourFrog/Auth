@@ -1,0 +1,26 @@
+{% extends 'layout/layout.twig' %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block content %}
+    {{ form().openTag(form)|raw }}
+    <table>
+        <tr>
+            <td>{{ formLabel(form.get('login')) }}</td>
+            <td>{{ formInput(form.get('login')) }}</td>
+            <td>{{ formElementErrors(form.get('login')) }}</td>
+        </tr>
+        <tr>
+            <td>{{ formLabel(form.get('password')) }}</td>
+            <td>{{ formInput(form.get('password')) }}</td>
+            <td>{{ formElementErrors(form.get('password')) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">{{ formSubmit(form.get('submit')) }}</td>
+        </tr>
+    </table>
+    {{ form().closeTag()|raw }}
+
+    <a href="{{ url('user/password-reminder') }}">Zapomniałem hasła</a>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'layout/layout.twig' %}
+
+{% block title %}Rejestracja{% endblock %}
+
+{% block content %}
+    {{ form().openTag(form)|raw }}
+    <table>
+        <tr>
+            <td>{{ formLabel(form.get('login')) }}</td>
+            <td>{{ formInput(form.get('login')) }}</td>
+            <td>{{ formElementErrors(form.get('login')) }}</td>
+        </tr>
+        <tr>
+            <td>{{ formLabel(form.get('email')) }}</td>
+            <td>{{ formInput(form.get('email')) }}</td>
+            <td>{{ formElementErrors(form.get('email')) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ formLabel(form.get('reEmail')) }}</td>
+            <td>{{ formInput(form.get('reEmail')) }}</td>
+            <td>{{ formElementErrors(form.get('reEmail')) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ formLabel(form.get('password')) }}</td>
+            <td>{{ formInput(form.get('password')) }}</td>
+            <td>{{ formElementErrors(form.get('password')) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>{{ formLabel(form.get('rePassword')) }}</td>
+            <td>{{ formInput(form.get('rePassword')) }}</td>
+            <td>{{ formElementErrors(form.get('rePassword')) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">{{ formSubmit(form.get('submit')) }}</td>
+        </tr>
+    </table>
+    {{ form().closeTag()|raw }}
+{% endblock %}
