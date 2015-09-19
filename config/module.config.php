@@ -14,12 +14,6 @@ return array(
 
             // Strona po rejestracyjna
             'after-register' => 'user/after-register'
-        ],
-        'mailer' => [
-            'register' => [
-                'subject' => 'Witaj graczu !',
-                'content-template' => 'auth/mailer/register'
-            ]
         ]
     ],
     'service_manager' => [
@@ -37,16 +31,6 @@ return array(
             'auth.form.annotation.builder' => 'Auth\Form\Factory\AnnotationBuilder',
             'auth.session.container' => 'Auth\Service\Factory\SessionContainer'
         ],
-        'abstract_factories' => [
-            // Fabryki zwiazane z mailami
-            'auth.mailer.register' => 'Auth\Mailer\Factory\AbstractFactory'
-        ],
-        'invokables' => [
-
-            // Encje zwiazane z mailerem, Nadpisać w przypadku uzycia innego modulu niz YourMailer :)
-            'auth.entity.mailer.recipient' => 'Mailer\Entity\Mailer\Recipient',
-            'auth.entity.mailer.message' => 'Mailer\Entity\Mailer\Message'
-        ]
     ],
     'validators' => [
         'abstract_factories' => [
@@ -121,16 +105,6 @@ return array(
                             ],
                         ],
                     ],
-                    'after-register' => [
-                        'type'    => 'Literal',
-                        'options' => [
-                            'route'    => '/after-register',
-                            'defaults' => [
-                                'controller' => 'Auth\Controller\Website\Login',
-                                'action'     => 'afterRegister',
-                            ],
-                        ],
-                    ],
                     'password-reminder' => [
                         'type'    => 'Literal',
                         'options' => [
@@ -160,8 +134,7 @@ return array(
             'login/index'           => __DIR__ . '/../view/auth/login/index.twig',
             'login/register'        => __DIR__ . '/../view/auth/login/register.twig',
 
-            'auth/toolbar/permisison' => 'C:\xampp\htdocs\Learn\module\Auth\view\auth\toolbar\permission.twig',
-            'auth/mailer/register' => 'C:\xampp\htdocs\Learn\module\Auth\view\auth\mailer\register.twig',
+            'auth/toolbar/permisison' => 'C:\xampp\htdocs\Learn\module\Auth\view\auth\toolbar\permission.twig'
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',

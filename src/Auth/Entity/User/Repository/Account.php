@@ -53,10 +53,20 @@ class Account extends EntityRepository
     {
         $criteria = [
             'login' => $login,
-            'password' => md5($password)
         ];
 
-        return $this->findOneBy($criteria);
+        /** @var AccountEntity $entity */
+        $entity = $this->findOneBy($criteria);
+
+        if( $entity === null ) {
+            return null;
+        }
+
+        if( $entity->comparePassword($password) ) {
+            return $entity;
+        }
+
+        return null;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Auth\Controller\Website;
 
 use Auth\Controller\Abstracts\AuthController;
+use Auth\EventManager\AuthEvent;
 use Zend\View\Model\ViewModel;
 use Exception;
 
@@ -42,6 +43,8 @@ class LoginController extends AuthController
                     $sessionContainer = $this->getSessionContainer();
                     $sessionContainer->setRoles($accountEntity->getRoles());
 
+                    $this->serviceLocator->get('Application')->getEventManager()->trigger(AuthEvent::EVENT_SIGN_IN, null, ['sessionContainer' => $sessionContainer]);
+                    $this->getEventManager()->trigger(AuthEvent::EVENT_SIGN_IN, null, ['sessionContainer' => $sessionContainer]);
                     $this->redirectToAfterLoginPage();
                 }
             }
@@ -58,11 +61,13 @@ class LoginController extends AuthController
      */
     public function logoutAction()
     {
+        $sessionContainer = $this->getSessionContainer();
         $repo = $this->getEntityManager()->getRoleRepository();
 
-        $sessionContainer = $this->getSessionContainer();
+        $this->serviceLocator->get('Application')->getEventManager()->trigger(AuthEvent::EVENT_PRE_LOGOUT, null, ['session' => $sessionContainer]);
+
         $sessionContainer->clear();
-        $sessionContainer->addRole($repo->getDefaultRole());
+        $sessionContainer->setRoles($repo->getDefaultRoles());
 
         /** @var \Auth\Configuration\Config $moduleConfiguration */
         $moduleConfiguration = $this->serviceLocator->get('auth.configuration');
@@ -70,6 +75,7 @@ class LoginController extends AuthController
 
         $routeName = $redirectConfiguration->getAfterLogout();
 
+        $this->serviceLocator->get('Application')->getEventManager()->trigger(AuthEvent::EVENT_POST_LOGOUT);
         $this->redirect()->toRoute($routeName);
     }
 
@@ -78,10 +84,6 @@ class LoginController extends AuthController
      */
     public function registerAction()
     {
-        /** @var \Auth\Business\Account $businessAccount */
-        $businessAccount = $this->serviceLocator->get('auth.business.account');
-
-
         /** @var \Zend\Form\Annotation\AnnotationBuilder $builder */
         $builder = $this->serviceLocator->get('auth.form.annotation.builder');
 
@@ -102,6 +104,7 @@ class LoginController extends AuthController
                     $this->redirect()->toRoute('user/after-register');
                 } catch(Exception $e) {
                     //Rejestracja się nie powiodła
+                    //@TODO wymyśleć co zrobić gdy się wywoła bład...
                 }
             }
         }
@@ -110,11 +113,6 @@ class LoginController extends AuthController
         $viewModel->setVariable('form', $registerForm);
 
         return $viewModel;
-    }
-
-    public function afterRegisterAction()
-    {
-        // Tylko dla celów obsługi
     }
 
     /**

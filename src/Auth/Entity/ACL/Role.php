@@ -14,9 +14,6 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class Role
 {
-    // Identyfikator domyślnej roli użytkowników
-    const DEFAULT_ROLE = 1;
-
     /**
      * @var integer
      *
@@ -38,6 +35,21 @@ class Role
      * @ORM\Column(name="name", type="string", length=32, nullable=false)
      */
     private $name;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_default", type="boolean", nullable=false)
+     */
+    private $isDefault;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_register", type="boolean", nullable=false)
+     */
+    private $isRegister;
+
 
     /**
      * @param int $id

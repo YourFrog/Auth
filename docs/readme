@@ -7,8 +7,12 @@ Założenia
 
 -- Do zrobienia
  - Dodanie soli do hasła (obecnie takie samo hasło 2 osób posiada ten sam hash)
- - Wysłanie e-mailu aktywacyjnego
- - Wysłanie e-mailu z nowym hasłem
  - Proces aktywacji konta
  - Jakiś panel administracyjny kontami (blokowanie, odblokowywanie, zmiana ról itp.)
  - Obsługa banowanych kont itp.
+
+
+
+- Zdarzenia
+ - dispatch
+ - AUTH_REGISTER_CLIENT

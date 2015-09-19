@@ -15,6 +15,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class AuthEvent
 {
+    // Zdarzenia
+    const EVENT_REGISTER_CLIENT = 'AUTH_REGISTER_CLIENT';
+    const EVENT_SIGN_IN = 'AUTH_SIGN_IN';
+    const EVENT_PRE_LOGOUT = 'AUTH_PRE_LOGOUT';
+    const EVENT_POST_LOGOUT = 'AUTH_POST_LOGOUT';
+
     /**
      *  Zdarzenie które wywołało klasę
      *
@@ -52,7 +58,7 @@ class AuthEvent
     }
 
     /**
-     *  Zdarzenie które może zostać wywołane z EventManagera
+     *  Zdarzenie podpięte w modulo do wywołań
      *
      * @param MvcEvent $event
      */

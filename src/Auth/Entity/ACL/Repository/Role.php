@@ -3,6 +3,8 @@
 namespace Auth\Entity\ACL\Repository;
 
 use Auth\Entity\ACL\Role as RoleEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -15,18 +17,44 @@ class Role extends EntityRepository
     /**
      *  Zwraca domyślną role w systemie
      *
-     * @return RoleEntity
+     * @return Collection kolekcja ról
      *
      * @throws \Exception
      */
-    public function getDefaultRole()
+    public function getDefaultRoles()
     {
-        $entity = $this->find(RoleEntity::DEFAULT_ROLE);
+        $criteria = [
+            'isDefault' => true
+        ];
 
-        if( $entity === null ) {
+        $arr = $this->findBy($criteria);
+
+        if( count($arr) === 0 ) {
             throw new \Exception('Nie odnaleziono domyślnej encji w systemie');
         }
 
-        return $entity;
+        return new ArrayCollection($arr);
+    }
+
+    /**
+     *  Role które powinny być ustawiane przy rejestracji kont
+     *
+     * @return Collection kolekcja ról
+     *
+     * @throws \Exception
+     */
+    public function getRegisterRoles()
+    {
+        $criteria = [
+            'isRegister' => true
+        ];
+
+        $arr = $this->findBy($criteria);
+
+        if( count($arr) === 0 ) {
+            throw new \Exception('Nie odnaleziono ról które ustawiamy nowym użytkownikom');
+        }
+
+        return new ArrayCollection($arr);
     }
 }

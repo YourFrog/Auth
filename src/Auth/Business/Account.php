@@ -2,6 +2,7 @@
 
 namespace Auth\Business;
 
+use Auth\EventManager\AuthEvent;
 use Auth\Mailer;
 use Auth\EntityManager\EntityManager;
 use Auth\Form\Register as FormRegister;
@@ -88,15 +89,19 @@ class Account
     protected function process()
     {
         $this->registerAccountEntity();
+        $this->runTrigger();
+    }
 
+    /**
+     *  Uruchamia triggera podpiętego pod rejestracje klienta
+     */
+    private function runTrigger()
+    {
         $params = [
             'formClass' => $this->formClass
         ];
 
-        $this->eventManager->trigger('AUTH_REGISTER_CLIENT', $this, $params);
-        $this->registerMail();
-
-        $this->entityManager->flush();
+        $this->eventManager->trigger(AuthEvent::EVENT_REGISTER_CLIENT, $this, $params);
     }
 
     /**
@@ -107,57 +112,13 @@ class Account
     private function registerAccountEntity()
     {
         $roleRepository = $this->entityManager->getRoleRepository();
-        $defaultRole = $roleRepository->getDefaultRole();
-
         $entity = $this->formClass->getAccountEntity();
-        $entity->addRole($defaultRole);
+
+        foreach($roleRepository->getRegisterRoles() as $role) {
+            $entity->addRole($role);
+        }
 
         $this->entityManager->persist($entity);
-    }
-
-    /**
-     *  Rejestracja maila
-     */
-    private function registerMail()
-    {
-        $messageEntity = $this->registerMessage();
-        $this->registerRecipient($messageEntity);
-    }
-
-    /**
-     *  Dodanie odbiorcy maila
-     *
-     * @param MailerEntity\Message $messageEntity Wiadomość do której przypisujemy odbiorcę
-     *
-     * @return MailerEntity\Recipient
-     */
-    private function registerRecipient(MailerEntity\Message $messageEntity)
-    {
-        $recipientEntity = $this->entityManager->createMailerRecipientEntity();
-        $recipientEntity->setEmail($this->formClass->getEmail());
-        $recipientEntity->setMessage($messageEntity);
-
-        $this->entityManager->persist($recipientEntity);
-
-        return $recipientEntity;
-    }
-
-    /**
-     *  Dodanie wiadomości do wysłania
-     *
-     * @return MailerEntity\Message
-     */
-    private function registerMessage()
-    {
-        $content = $this->mailerRegister->parseContent($this->formClass);
-        $subject = $this->mailerRegister->getSubject();
-
-        $messageEntity = $this->entityManager->createMailerMessageEntity();
-        $messageEntity->setSubject($subject);
-        $messageEntity->setContent($content);
-
-        $this->entityManager->persist($messageEntity);
-
-        return $messageEntity;
+        $this->entityManager->flush();
     }
 }

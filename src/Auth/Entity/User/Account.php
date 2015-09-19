@@ -2,6 +2,7 @@
 
 namespace Auth\Entity\User;
 
+use Auth\Entity\Exception\InvalidSaltException;
 use Doctrine\ORM\Mapping as ORM;
 use Auth\Entity\ACL\Role as EntityRole;
 
@@ -35,6 +36,15 @@ class Account
      * @ORM\Column(name="login", type="string", length=32, nullable=false)
      */
     private $login;
+
+    /**
+     *  Sól dodawana do hasła
+     *
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", length=32, nullable=false)
+     */
+    private $salt;
 
     /**
      * @var string
@@ -86,11 +96,45 @@ class Account
     }
 
     /**
-     * @param string $password
+     *  Sprawdzenie czy hasło jest prawidłowe
+     *
+     * @param string $password Hasło które sprawdzamy
+     *
+     * @return bool
+     */
+    public function comparePassword($password)
+    {
+        $hash = $this->createHash($password, $this->salt);
+        return (strcmp($this->password, $hash) === 0);
+    }
+
+    /**
+     *  Ustawia hasło do konta
+     *
+     * @param string $password Hasło które chcemy ustalić do konta
+     *
+     * @throws InvalidSaltException
      */
     public function setPassword($password)
     {
-        $this->password = md5($password);
+        if( $this->salt === null ) {
+            throw new InvalidSaltException('Nie zdefiniowano soli. Wywolaj metode "generateSalte"');
+        }
+
+        $this->password = $this->createHash($password, $this->salt);
+    }
+
+    /**
+     *  Generuje hash hasła
+     *
+     * @param string $password Hasło
+     * @param string $salt Ziarno
+     *
+     * @return string
+     */
+    private function createHash($password, $salt)
+    {
+        return md5($password . $salt);
     }
 
     /**
@@ -110,14 +154,42 @@ class Account
      */
     public function generateRandomPassword()
     {
+        return $this->generateRandomString(8);
+    }
+
+    /**
+     *  Generuje sól do hasła :)
+     */
+    public function generateSalt()
+    {
+        $this->salt = $this->generateRandomString(32);
+    }
+
+    /**
+     *  Generuje losowy string o podanej długości
+     *
+     * @param integer $stringLength Interesujaca nas długość słowa
+     *
+     * @return string
+     */
+    private function generateRandomString($stringLength)
+    {
         $chars = array_merge(
-            rand('a', 'z'),
-            rand('A', 'Z'),
+            range(0, 9),
+            range('a', 'z'),
+            range('A', 'Z'),
             ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')']
         );
+        shuffle($chars);
 
-        for($i = 0; $i < 8; $i++) {
+        $max = count($chars) - 1;
+        $arr = [];
 
+        for( $i = 0; $i < $stringLength; $i++ ) {
+            $index = rand(0, $max);
+            $arr[] = $chars[$index];
         }
+
+        return implode('', $arr);
     }
 }

@@ -133,6 +133,7 @@ class Register
     public function getAccountEntity()
     {
         $entity = new AccountEntity();
+        $entity->generateSalt();
         $entity->setLogin($this->login);
         $entity->setEmail($this->email);
         $entity->setPassword($this->password);

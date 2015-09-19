@@ -3,7 +3,7 @@
 namespace Auth\Service\Session;
 
 use Auth\Entity\ACL\Role as RoleEntity;
-use Doctrine\ORM\PersistentCollection;
+use Doctrine\Common\Collections\Collection;
 use Zend\Session\Container as SessionContainer;
 
 /**
@@ -57,9 +57,9 @@ class Container
     /**
      *  Ustawia kilka ról jednocześnie w kontenerze
      *
-     * @param PersistentCollection $roles
+     * @param Collection $roles
      */
-    public function setRoles(PersistentCollection $roles)
+    public function setRoles(Collection $roles)
     {
         $this->clear();
 

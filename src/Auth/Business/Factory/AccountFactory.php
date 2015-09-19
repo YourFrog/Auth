@@ -25,7 +25,7 @@ class AccountFactory implements FactoryInterface
         $entityManager = $serviceLocator->get('auth.entitymanager');
 
         /** @var \Zend\EventManager\EventManager $eventManager */
-        $eventManager = $serviceLocator->get('EventManager');
+        $eventManager = $serviceLocator->get('Application')->getEventManager();
 
         /** @var \Auth\Mailer\RegisterParser $mailerRegister */
         $mailerRegister = $serviceLocator->get('auth.mailer.register');

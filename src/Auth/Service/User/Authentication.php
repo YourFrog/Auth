@@ -62,8 +62,8 @@ class Authentication extends HelperPluginManager
     {
         /** @var \Auth\Entity\ACL\Repository\Role $repo */
         $repo = $this->entityManager->getRepository('Auth\Entity\ACL\Role');
-        $role = $repo->getDefaultRole();
+        $role = $repo->getDefaultRoles();
 
-        $this->sessionContainer->addRole($role);
+        $this->sessionContainer->setRoles($role);
     }
 }
