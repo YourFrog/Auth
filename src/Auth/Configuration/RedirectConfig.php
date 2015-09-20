@@ -12,6 +12,19 @@ class RedirectConfig extends AbstractConfig
     const KEY_AFTER_REGISTER = 'after-register';
     const KEY_AFTER_LOGIN = 'after-login';
     const KEY_AFTER_LOGOUT = 'after-logout';
+    const KEY_PASSWORD_REMINDER = 'after-password-reminder';
+
+    /**
+     *  Nazwa router na który zostanie przekierowana osoba po przypomnieniu hasła
+     *
+     * @return string
+     *
+     * @throws Exception\UnknownConfigurationException
+     */
+    public function getAfterPasswordReminder()
+    {
+        return $this->getoption(self::KEY_PASSWORD_REMINDER);
+    }
 
     /**
      *  Scieżka w której znajduje się konfiguracja

@@ -6,6 +6,7 @@ INSERT INTO acl.resource (hash, name) VALUES(md5('user/logout'), 'user/logout');
 INSERT INTO acl.resource (hash, name) VALUES(md5('user/register'), 'user/register');
 INSERT INTO acl.resource (hash, name) VALUES(md5('user/register'), 'user/after-register');
 INSERT INTO acl.resource (hash, name) VALUES(md5('user/register'), 'user/password-reminder');
+INSERT INTO acl.resource (hash, name) VALUES(md5('user/after-password-reminder'), 'user/after-password-reminder');
 
 -- Role
 INSERT INTO acl.role (priority, name) VALUES(1, 'guest');
@@ -46,6 +47,8 @@ INSERT INTO acl.permission (resource_id, type_id, role_id, allow) VALUES(4, 1, 2
 
 INSERT INTO acl.permission (resource_id, type_id, role_id, allow) VALUES(7, 1, 1, true);
 INSERT INTO acl.permission (resource_id, type_id, role_id, allow) VALUES(7, 1, 2, false);
+INSERT INTO acl.permission (resource_id, type_id, role_id, allow) VALUES(8, 1, 1, true);
+INSERT INTO acl.permission (resource_id, type_id, role_id, allow) VALUES(8, 1, 2, false);
 
 -- Dziedziczenia
 INSERT INTO acl.role_extension VALUES (2, 1);

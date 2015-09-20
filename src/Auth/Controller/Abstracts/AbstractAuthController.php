@@ -9,7 +9,7 @@ use Zend\Mvc\Controller\AbstractActionController;
  *
  * @method \Zend\Http\PhpEnvironment\Request getRequest() Wskazanie konkretnej zwracanej klasy
  */
-abstract class AuthController extends AbstractActionController
+abstract class AbstractAuthController extends AbstractActionController
 {
     /**
      * @return \Auth\EntityManager\EntityManager
@@ -37,6 +37,19 @@ abstract class AuthController extends AbstractActionController
         $redirectConfiguration = $moduleConfiguration->getRedirectConfiguration();
 
         $routeName = $redirectConfiguration->getAfterLogin();
+        $this->redirect()->toRoute($routeName);
+    }
+
+    /**
+     *  Przekierowanie na stronę po przypomnieniu hasła
+     */
+    protected function redirectToAfterReminderPasswordPage()
+    {
+        /** @var \Auth\Configuration\Config $moduleConfiguration */
+        $moduleConfiguration = $this->serviceLocator->get('auth.configuration');
+        $redirectConfiguration = $moduleConfiguration->getRedirectConfiguration();
+
+        $routeName = $redirectConfiguration->getAfterPasswordReminder();
         $this->redirect()->toRoute($routeName);
     }
 }

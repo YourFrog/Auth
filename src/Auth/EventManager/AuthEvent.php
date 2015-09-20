@@ -20,6 +20,7 @@ class AuthEvent
     const EVENT_SIGN_IN = 'AUTH_SIGN_IN';
     const EVENT_PRE_LOGOUT = 'AUTH_PRE_LOGOUT';
     const EVENT_POST_LOGOUT = 'AUTH_POST_LOGOUT';
+    const EVENT_REMINDER_PASSWORD = 'AUTH_REMINDER_PASSWORD';
 
     /**
      *  Zdarzenie które wywołało klasę

@@ -4,7 +4,7 @@ return array(
     'auth' => [
         'redirect' => [
             // Nazwa routera na który zostanie przekierowana osoba z niedozwolonym dostępem
-            'disallow' => 'home',
+            'disallow' => 'user/disallow',
 
             // Nazwa routera na który zostanie przekierowania osoba która się zalogowała
             'after-login' => null,
@@ -13,7 +13,10 @@ return array(
             'after-logout' => 'home',
 
             // Strona po rejestracyjna
-            'after-register' => 'user/after-register'
+            'after-register' => 'user/after-register',
+
+            // Strona po przypomnieniu hasła
+            'after-password-reminder' => 'user/after-password-reminder'
         ]
     ],
     'service_manager' => [
@@ -62,66 +65,9 @@ return array(
             ]
         ]
     ],
-    'router' => array(
-        'routes' => array(
-            'user' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/user',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => [
-                    'login' => [
-                        'type'    => 'Literal',
-                        'options' => [
-                            'route'    => '/login',
-                            'defaults' => [
-                                'controller' => 'Auth\Controller\Website\Login',
-                                'action'     => 'index',
-                            ],
-                        ],
-                    ],
-                    'logout' => [
-                        'type'    => 'Literal',
-                        'options' => [
-                            'route'    => '/logout',
-                            'defaults' => [
-                                'controller' => 'Auth\Controller\Website\Login',
-                                'action'     => 'logout',
-                            ],
-                        ],
-                    ],
-                    'register' => [
-                        'type'    => 'Literal',
-                        'options' => [
-                            'route'    => '/register',
-                            'defaults' => [
-                                'controller' => 'Auth\Controller\Website\Login',
-                                'action'     => 'register',
-                            ],
-                        ],
-                    ],
-                    'password-reminder' => [
-                        'type'    => 'Literal',
-                        'options' => [
-                            'route'    => '/password-reminder',
-                            'defaults' => [
-                                'controller' => 'Auth\Controller\Website\Login',
-                                'action'     => 'passwordReminder',
-                            ],
-                        ],
-                    ]
-                ],
-            )
-        )
-    ),
     'controllers' => array(
         'invokables' => array(
-            'Auth\Controller\Website\Login' => 'Auth\Controller\Website\LoginController'
+            'Auth\Controller\Website\Auth' => 'Auth\Controller\Website\AuthController'
         ),
     ),
     'view_manager' => array(

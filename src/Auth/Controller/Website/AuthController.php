@@ -2,7 +2,7 @@
 
 namespace Auth\Controller\Website;
 
-use Auth\Controller\Abstracts\AuthController;
+use Auth\Controller\Abstracts\AbstractAuthController;
 use Auth\EventManager\AuthEvent;
 use Zend\View\Model\ViewModel;
 use Exception;
@@ -16,8 +16,16 @@ use Auth\Form\ReminderPassword as ReminderPasswordForm;
  *
  * @package Auth\Controller
  */
-class LoginController extends AuthController
+class AuthController extends AbstractAuthController
 {
+    /**
+     *  Brak uprawnień
+     */
+    public function disallowAction()
+    {
+
+    }
+
     /**
      *  Logowanie do systemu
      *
@@ -139,7 +147,11 @@ class LoginController extends AuthController
                 $password = $accountEntity->generateRandomPassword();
                 $accountEntity->setPassword($password);
 
-                echo 'znaleziono';
+                $this->getEntityManager()->persist($accountEntity);
+                $this->getEntityManager()->flush();
+
+                $this->serviceLocator->get('Application')->getEventManager()->trigger(AuthEvent::EVENT_REMINDER_PASSWORD);
+                $this->redirectToAfterReminderPasswordPage();
             }
         }
 
@@ -147,5 +159,13 @@ class LoginController extends AuthController
         $viewModel->setVariable('form', $form);
 
         return $viewModel;
+    }
+
+    /**
+     *  Poprawne przypomnienie hasła
+     */
+    public function afterPasswordReminderAction()
+    {
+
     }
 }
