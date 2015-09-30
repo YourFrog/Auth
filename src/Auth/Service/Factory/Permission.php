@@ -22,8 +22,11 @@ class Permission implements FactoryInterface
     {
         $obj = new \Auth\Service\Permission();
 
+        /** @var \Auth\Entity\ACL\Repository\View\Permission $permissionRepository */
+        $permissionRepository = $serviceLocator->get('auth.repository.acl.view.permission');
+
+        $obj->setPermissionRepository($permissionRepository);
         $obj->setSessionContainer($serviceLocator->get('auth.session.container'));
-        $obj->setEntityManager($serviceLocator->get('doctrine.entitymanager.orm_default'));
         $obj->setEventManager($serviceLocator->get('eventManager'));
         $obj->setPermissionCollector($serviceLocator->get('auth.toolbar'));
 

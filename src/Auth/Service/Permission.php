@@ -4,8 +4,8 @@ namespace Auth\Service;
 
 use Auth\Service\Session\Container as SessionContainer;
 use Zend\EventManager\EventManagerInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Auth\DeveloperTools\PermissionCollector;
+use Auth\Entity\ACL\Repository\View\Permission as PermissionRepository;
 
 /**
  *  Klasa obsługująca informacje o dostępach do zasobów
@@ -14,11 +14,6 @@ use Auth\DeveloperTools\PermissionCollector;
  */
 class Permission
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
     /**
      * @var EventManagerInterface
      */
@@ -34,10 +29,10 @@ class Permission
      */
     private $sessionContainer;
 
-    public function setEntityManager(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
+    /**
+     * @var PermissionRepository
+     */
+    private $permissionRepository;
 
     /**
      * @param EventManagerInterface $eventManager
@@ -87,9 +82,7 @@ class Permission
     public function isAllow($resourceName, $permissionType)
     {
         $roles = $this->sessionContainer->getRoles();
-
-        $repo = $this->entityManager->getRepository('Auth\Entity\ACL\View\Permission');
-        $permissions = $repo->findPermission($resourceName, $roles, $permissionType);
+        $permissions = $this->permissionRepository->findPermission($resourceName, $roles, $permissionType);
 
         if( count($permissions) == 0 ) {
             $result = false;
@@ -99,5 +92,13 @@ class Permission
 
         $this->permissionCollector->addCheck($resourceName, $permissionType, $result);
         return $result;
+    }
+
+    /**
+     * @param PermissionRepository $permissionRepository
+     */
+    public function setPermissionRepository(PermissionRepository $permissionRepository)
+    {
+        $this->permissionRepository = $permissionRepository;
     }
 }

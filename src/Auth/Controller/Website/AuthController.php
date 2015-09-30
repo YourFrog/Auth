@@ -44,8 +44,9 @@ class AuthController extends AbstractAuthController
             $loginForm->setData($request->getPost());
 
             if( $loginForm->isValid() ) {
-                $repo = $this->getEntityManager()->getAccountRepository();
-                $accountEntity = $repo->findByLoginForm($formClass);
+                /** @var \Auth\Entity\User\Repository\Account $accountRepository */
+                $accountRepository = $this->getServiceLocator()->get('auth.repository.user.account');
+                $accountEntity = $accountRepository->findByLoginForm($formClass);
 
                 if( $accountEntity !== null ) {
                     $sessionContainer = $this->getSessionContainer();
@@ -70,7 +71,8 @@ class AuthController extends AbstractAuthController
     public function logoutAction()
     {
         $sessionContainer = $this->getSessionContainer();
-        $repo = $this->getEntityManager()->getRoleRepository();
+        /** @var \Auth\Entity\ACL\Repository\Role $repo */
+        $repo = $this->getServiceLocator()->get('auth.repository.acl.role');
 
         $this->serviceLocator->get('Application')->getEventManager()->trigger(AuthEvent::EVENT_PRE_LOGOUT, null, ['session' => $sessionContainer]);
 
@@ -141,7 +143,8 @@ class AuthController extends AbstractAuthController
             $form->setData($request->getPost());
 
             if( $form->isValid() ) {
-                $accountRepository = $this->getEntityManager()->getAccountRepository();
+                /** @var \Auth\Entity\User\Repository\Account $accountRepository */
+                $accountRepository = $this->getServiceLocator()->get('auth.repository.user.account');
                 $accountEntity = $accountRepository->findByEmail($passwordReminderFormClass->getEmail());
 
                 $password = $accountEntity->generateRandomPassword();

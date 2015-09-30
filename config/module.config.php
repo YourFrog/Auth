@@ -34,6 +34,9 @@ return array(
             'auth.form.annotation.builder' => 'Auth\Form\Factory\AnnotationBuilder',
             'auth.session.container' => 'Auth\Service\Factory\SessionContainer'
         ],
+        'abstract_factories' => [
+            'auth.repository.factory' => 'Auth\EntityManager\Factory\Repository',
+        ]
     ],
     'validators' => [
         'abstract_factories' => [
