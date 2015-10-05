@@ -25,7 +25,7 @@
             "Auth": ["src/Auth/src/", "src/Auth/"]
         },
         "classmap": {
-            "src/Auth/Module.php"
+            ["src/Auth/Module.php"]
         }
     }
 }
