@@ -30,7 +30,7 @@
         "Auth": "src/Auth/src/"
     },
     "classmap": [
-        "src/Auth/Module.php"
+        "./src/Auth/Module.php"
     ]
   }
 }
