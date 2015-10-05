@@ -1,7 +1,13 @@
 {
     "name":              "yourfrog/auth",
-    "description":       "Modul autoryzacyjny",
+    "description":       "Moduł autoryzacyjny",
     "homepage":          "https://github.com/YourFrog/Auth/",
+    "keywords": [
+        "zf2",
+        "auth",
+        "authorization",
+        "yourfrog"
+    ],
     "authors": [
         {
             "name":     "Paweł Stelmasiak",
