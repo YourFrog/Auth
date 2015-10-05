@@ -1,12 +1,6 @@
 {
     "name":              "yourfrog/auth",
     "description":       "Modul autoryzacyjny",
-    "type":              "library",
-    "license":           "MIT",
-    "keywords": [
-        "yourfrog", 
-        "auth"
-    ],
     "homepage":          "https://github.com/YourFrog/Auth",
     "authors": [
         {
