@@ -1,0 +1,33 @@
+{
+  "name":              "yourfrog/auth",
+  "description":       "Moduł autoryzacyjny",
+  "type":              "library",
+  "license":           "MIT",
+  "keywords": [
+    "yourfrog", "auth"
+  ],
+  "homepage":          "https://github.com/YourFrog/Auth",
+  "authors": [
+    {
+      "name":     "Paweł Stelmasiak",
+      "email":    "stedi2@o2.pl"
+    }
+  ],
+  "require": {
+    "php":                               ">=5.4",
+    "doctrine/doctrine-orm-module":          "~0.8"
+  },
+  "require-dev": {
+    "php":                               ">=5.4",
+    "doctrine/doctrine-orm-module":          "~0.8"
+  },
+  "suggest": {
+    "zendframework/zend-form":            "if you want to use form elements backed by Doctrine",
+    "zendframework/zend-developer-tools": "zend-developer-tools if you want to profile operations executed by the ORM during development"
+  },
+  "autoload": {
+    "psr-0": {
+      "Auth\\": "src/"
+    }
+  }
+}
