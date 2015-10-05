@@ -26,7 +26,7 @@
     "zendframework/zend-developer-tools": "zend-developer-tools if you want to profile operations executed by the ORM during development"
   },
   "autoload": {
-    "psr-4": {
+    "psr-0": {
       "Auth\\": "src/"
     }
   }
