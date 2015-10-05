@@ -27,10 +27,10 @@
   },
   "autoload": {
     "psr-0": {
-        "Auth": "src/"
+        "Auth": "src/Auth/src/"
     },
     "classmap": [
-        "./Module.php"
+        "src/Auth/Module.php"
     ]
   }
 }
