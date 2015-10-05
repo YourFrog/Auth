@@ -23,6 +23,9 @@
     "autoload": {
         "psr-0": {
             "Auth": ["src/Auth/src/", "src/Auth/"]
+        },
+        "classmap": {
+            "src/Auth/Module.php"
         }
     }
 }
