@@ -38,19 +38,6 @@ abstract class AbstractAuthController extends AbstractActionController
     }
 
     /**
-     *  Przekierowanie na stronę po zalogowaniu
-     */
-    protected function redirectToAfterLoginPage()
-    {
-        /** @var \Auth\Configuration\Config $moduleConfiguration */
-        $moduleConfiguration = $this->serviceLocator->get('auth.configuration');
-        $redirectConfiguration = $moduleConfiguration->getRedirectConfiguration();
-
-        $routeName = $redirectConfiguration->getAfterLogin();
-        $this->redirect()->toRoute($routeName);
-    }
-
-    /**
      *  Przekierowanie na stronę po przypomnieniu hasła
      */
     protected function redirectToAfterReminderPasswordPage()

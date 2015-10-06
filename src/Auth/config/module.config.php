@@ -28,7 +28,7 @@ return array(
             'auth.configuration' => 'Auth\Configuration\Factory\ConfigFactory',
 
             // Fabryki procesów biznesowych
-            'auth.business' => 'Auth\Business\Factory\Business',
+            'auth.business' => 'Auth\Business\Factory\BusinessFactory',
             'auth.business.account' => 'Auth\Business\Factory\AccountFactory',
 
             'auth.entitymanager' => 'Auth\EntityManager\Factory\EntityManager',

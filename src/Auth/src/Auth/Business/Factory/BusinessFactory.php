@@ -22,6 +22,7 @@ class BusinessFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $object = new ProccessList();
+        $object->setServiceLocator($serviceLocator);
 
         return $object;
     }
