@@ -4,12 +4,11 @@ namespace Auth\Business\Proccess;
 
 use Auth\Configuration\RedirectConfig;
 use Auth\EventManager\AuthEvent;
-use Auth\Form\Login as LoginForm;
+use Auth\Form\Login as LoginClass;
 use Zend\EventManager\EventManager;
 use Zend\Form\Form;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Zend\Mvc\Controller\Plugin\Redirect;
-use Zend\View\Model\ViewModel;
 use Zend\Http\Request;
 use Auth\EntityManager\Repository;
 use Auth\Service\Session;
@@ -57,9 +56,14 @@ class SignIn
     private $redirect;
 
     /**
-     * @var LoginForm
+     * @var Form
      */
     private $loginForm;
+
+    /**
+     * @var LoginClass
+     */
+    private $loginClass;
 
     /**
      * @param Redirect $redirect
@@ -120,8 +124,6 @@ class SignIn
     /**
      *  Wykonuje logowanie do aplikacji
      *
-     * @return ViewModel
-     *
      * @throws \Exception
      */
     public function signIn()
@@ -138,10 +140,6 @@ class SignIn
             $this->eventManager->trigger(AuthEvent::EVENT_SIGN_IN, null, ['sessionContainer' => $this->sessionContainer]);
             $this->redirectToAfterLoginPage();
         }
-
-        return new ViewModel([
-            'form' => $loginForm
-        ]);
     }
 
     /**
@@ -177,25 +175,27 @@ class SignIn
      */
     public function getLoginForm()
     {
-        $formClass = $this->getFormClass();
+        if( $this->loginForm === null ) {
+            $formClass = $this->getFormClass();
 
-        $form = $this->annotationBuilder->createForm($formClass);
-        $form->bind($formClass);
+            $this->loginForm = $this->annotationBuilder->createForm($formClass);
+            $this->loginForm->bind($formClass);
+        }
 
-        return $form;
+        return $this->loginForm;
     }
 
     /**
      *  Zwraca klasę z której jest tworzony formularz
      *
-     * @return LoginForm
+     * @return LoginClass
      */
     private function getFormClass()
     {
-        if( $this->loginForm === null ) {
-            $this->loginForm = new LoginForm();
+        if( $this->loginClass === null ) {
+            $this->loginClass = new LoginClass();
         }
 
-        return $this->loginForm;
+        return $this->loginClass;
     }
 }

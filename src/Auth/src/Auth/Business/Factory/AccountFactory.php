@@ -73,7 +73,7 @@ class AccountFactory implements FactoryInterface
     private function getEventManager()
     {
         $application = $this->serviceLocator->get('Application');
-        return $application->getEventMaanager();
+        return $application->getEventManager();
     }
 
     /**

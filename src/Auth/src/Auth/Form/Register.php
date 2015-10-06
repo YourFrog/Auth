@@ -89,19 +89,6 @@ class Register
     public $submit = 'Zarejestruj się';
 
     /**
-     *  Utworzenie formularza
-     *
-     * @return \Zend\Form\Form
-     */
-    public function createForm(Annotation\AnnotationBuilder $annotationBuilder)
-    {
-        $form = $annotationBuilder->createForm($this);
-        $form->bind($this);
-
-        return $form;
-    }
-
-    /**
      * @return string
      */
     public function getEmail()
