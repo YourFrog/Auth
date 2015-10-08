@@ -2,6 +2,7 @@
 
 namespace Auth\Service\Factory;
 
+use Auth\Service;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -20,11 +21,10 @@ class Permission implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $obj = new \Auth\Service\Permission();
-
         /** @var \Auth\EntityManager\Repository $repository */
         $repository = $serviceLocator->get('auth.repository');
 
+        $obj = new Service\Permission();
         $obj->setPermissionRepository($repository->createAclPermissionView());
         $obj->setSessionContainer($serviceLocator->get('auth.session.container'));
         $obj->setEventManager($serviceLocator->get('eventManager'));

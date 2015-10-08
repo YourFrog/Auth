@@ -41,19 +41,4 @@ class ReminderPassword
     {
         return $this->email;
     }
-
-    /**
-     *  Utworzenie formularza
-     *
-     * @param Annotation\AnnotationBuilder $annotationBuilder Budowniczy wykorzystywany do zbudowania formularza
-     *
-     * @return \Zend\Form\Form
-     */
-    public function createForm(Annotation\AnnotationBuilder $annotationBuilder)
-    {
-        $form = $annotationBuilder->createForm($this);
-        $form->bind($this);
-
-        return $form;
-    }
 }

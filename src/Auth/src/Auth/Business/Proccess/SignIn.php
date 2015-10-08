@@ -135,6 +135,7 @@ class SignIn
 
             $account = $this->getAccount();
 
+            $this->sessionContainer->setAccount($account);
             $this->sessionContainer->setRoles($account->getRoles());
 
             $this->eventManager->trigger(AuthEvent::EVENT_SIGN_IN, null, ['sessionContainer' => $this->sessionContainer]);

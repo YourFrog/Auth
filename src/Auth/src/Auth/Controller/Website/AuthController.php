@@ -3,9 +3,7 @@
 namespace Auth\Controller\Website;
 
 use Auth\Controller\Abstracts\AbstractAuthController;
-use Auth\EventManager\AuthEvent;
 use Zend\View\Model\ViewModel;
-use Auth\Form\ReminderPassword as ReminderPasswordForm;
 
 /**
  *  Obsługa logowania do systemu
@@ -75,37 +73,16 @@ class AuthController extends AbstractAuthController
      */
     public function passwordReminderAction()
     {
-        $builder = $this->serviceLocator->get('auth.form.annotation.builder');
+        $business = $this->getBusinessProccessList();
+        $proccess = $business->createPasswordReminder();
 
-        $passwordReminderFormClass = new ReminderPasswordForm();
-        $form = $passwordReminderFormClass->createForm($builder);
-
-        $request = $this->getRequest();
-
-        if( $request->isPost() ) {
-            $form->setData($request->getPost());
-
-            if( $form->isValid() ) {
-                /** @var \Auth\EntityManager\Repository $repository */
-                $repository = $this->getServiceLocator()->get('auth.repository');
-                $accountRepository = $repository->createUserAccount();
-                $accountEntity = $accountRepository->findByEmail($passwordReminderFormClass->getEmail());
-
-                $password = $accountEntity->generateRandomPassword();
-                $accountEntity->setPassword($password);
-
-                $this->getEntityManager()->persist($accountEntity);
-                $this->getEntityManager()->flush();
-
-                $this->serviceLocator->get('Application')->getEventManager()->trigger(AuthEvent::EVENT_REMINDER_PASSWORD);
-                $this->redirectToAfterReminderPasswordPage();
-            }
+        if( $this->getRequest()->isPost() ) {
+            $proccess->passwordReminder();
         }
 
-        $viewModel = new ViewModel();
-        $viewModel->setVariable('form', $form);
-
-        return $viewModel;
+        return new ViewModel([
+           'form' => $proccess->getPasswordReminderForm()
+        ]);
     }
 
     /**

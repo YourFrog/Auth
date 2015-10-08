@@ -2,6 +2,7 @@
 
 namespace Auth\Business\Proccess;
 
+use Auth\Configuration\RedirectConfig;
 use Auth\Form\Register as RegisterClass;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Zend\Mvc\Controller\Plugin\Redirect;
@@ -46,6 +47,11 @@ class Register
     private $businessAccount;
 
     /**
+     * @var RedirectConfig
+     */
+    private $redirectConfiguration;
+
+    /**
      * @param Request $request
      */
     public function setRequest(Request $request)
@@ -78,6 +84,14 @@ class Register
     }
 
     /**
+     * @param RedirectConfig $redirectConfiguration
+     */
+    public function setRedirectConfiguration(RedirectConfig $redirectConfiguration)
+    {
+        $this->redirectConfiguration = $redirectConfiguration;
+    }
+
+    /**
      *  Rejestracja nowego konta
      */
     public function register()
@@ -92,7 +106,10 @@ class Register
 
         try {
             $this->businessAccount->register($this->getRegisterClass());
-            $this->redirect->toRoute('user/after-register');
+
+            $routeName = $this->redirectConfiguration->getAfterRegisterPage();
+
+            $this->redirect->toRoute($routeName);
         } catch(\Exception $e) {
             //Rejestracja się nie powiodła
             //@TODO wymyśleć co zrobić gdy się wywoła bład...

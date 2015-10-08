@@ -10,6 +10,8 @@
             <span class="zdt-detail-label">Permission</span>
         </span>
         <span class="zdt-toolbar-info">
+            <span class="zdt-toolbar-info zdt-toolbar-info-heading">Account</span>
+            <span>ID: <?php echo $collector->getAccountId(); ?></span>
             <span class="zdt-toolbar-info zdt-toolbar-info-heading">Role</span>
             <?php
                 foreach($collector->getRoles() as $role) {

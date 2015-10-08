@@ -75,6 +75,16 @@ class PermissionCollector implements CollectorInterface
     }
 
     /**
+     *  Zwraca identyfikator konta użytkownika
+     *
+     * @return int
+     */
+    public function getAccountId()
+    {
+        return $this->sessionContainer->getAccountId();
+    }
+
+    /**
      * @return array
      */
     public function getData()

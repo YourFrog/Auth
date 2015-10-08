@@ -72,6 +72,14 @@ class Account
     }
 
     /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->accountId;
+    }
+
+    /**
      * @return mixed
      */
     public function getRoles()

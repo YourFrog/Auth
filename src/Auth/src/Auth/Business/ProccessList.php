@@ -42,9 +42,7 @@ class ProccessList
         /** @var \Zend\Mvc\Controller\Plugin\Redirect $redirect */
         $redirect = $this->serviceLocator->get('ControllerPluginManager')->get('redirect');
 
-        /** @var \Auth\Configuration\Config $moduleConfiguration */
-        $moduleConfiguration = $this->serviceLocator->get('auth.configuration');
-        $redirectConfiguration = $moduleConfiguration->getRedirectConfiguration();
+        $redirectConfiguration = $this->getRedirectConfiguration();
 
         $object = new Proccess\SignOut();
         $object->setRedirect($redirect);
@@ -81,9 +79,7 @@ class ProccessList
         /** @var \Zend\Mvc\Controller\Plugin\Redirect $redirect */
         $redirect = $this->serviceLocator->get('ControllerPluginManager')->get('redirect');
 
-        /** @var \Auth\Configuration\Config $moduleConfiguration */
-        $moduleConfiguration = $this->serviceLocator->get('auth.configuration');
-        $redirectConfiguration = $moduleConfiguration->getRedirectConfiguration();
+        $redirectConfiguration = $this->getRedirectConfiguration();
 
         $object = new Proccess\SignIn();
         $object->setAnnotationBuilder($builder);
@@ -114,11 +110,61 @@ class ProccessList
         /** @var \Auth\Business\Account $businessAccount */
         $businessAccount = $this->serviceLocator->get('auth.business.account');
 
+        $redirectConfiguration = $this->getRedirectConfiguration();
+
         $object = new Proccess\Register();
         $object->setRequest($request);
         $object->setRedirect($redirect);
         $object->setBusinessAccount($businessAccount);
         $object->setAnnotationBuilder($builder);
+        $object->setRedirectConfiguration($redirectConfiguration);
+
+        return $object;
+    }
+
+    /**
+     * @return \Auth\Configuration\RedirectConfig
+     */
+    private function getRedirectConfiguration()
+    {
+        /** @var \Auth\Configuration\Config $moduleConfiguration */
+        $moduleConfiguration = $this->serviceLocator->get('auth.configuration');
+        return $moduleConfiguration->getRedirectConfiguration();
+    }
+
+    /**
+     * @return Proccess\PasswordReminder
+     */
+    public function createPasswordReminder()
+    {
+        /** @var \Zend\Form\Annotation\AnnotationBuilder $builder */
+        $builder = $this->serviceLocator->get('auth.form.annotation.builder');
+
+        /** @var \Zend\Http\Request $request */
+        $request = $this->serviceLocator->get('request');
+
+        /** @var \Auth\EntityManager\Repository $repository */
+        $repository = $this->serviceLocator->get('auth.repository');
+
+        /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
+        $entityManager = $this->serviceLocator->get('auth.entitymanager');
+
+        /** @var \Zend\EventManager\EventManager $eventManager */
+        $eventManager = $this->serviceLocator->get('Application')->getEventManager();
+
+        /** @var \Zend\Mvc\Controller\Plugin\Redirect $redirect */
+        $redirect = $this->serviceLocator->get('ControllerPluginManager')->get('redirect');
+
+        $redirectConfiguration = $this->getRedirectConfiguration();
+
+        $object = new Proccess\PasswordReminder();
+        $object->setRepository($repository);
+        $object->setAnnotationBuilder($builder);
+        $object->setRequest($request);
+        $object->setRedirect($redirect);
+        $object->setRedirectConfiguration($redirectConfiguration);
+        $object->setEntityManager($entityManager);
+        $object->setEventManager($eventManager);
 
         return $object;
     }

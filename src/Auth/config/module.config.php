@@ -86,7 +86,7 @@ return array(
             'login/index'           => __DIR__ . '/../view/auth/login/index.twig',
             'login/register'        => __DIR__ . '/../view/auth/login/register.twig',
 
-            'auth/toolbar/permisison' => 'C:\xampp\htdocs\Learn\module\Auth\view\auth\toolbar\permission.twig'
+            'auth/toolbar/permisison' => __DIR__ . '/../view/auth/toolbar/permission.twig'
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',

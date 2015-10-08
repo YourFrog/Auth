@@ -3,6 +3,7 @@
 namespace Auth\Service\Session;
 
 use Auth\Entity\ACL\Role as RoleEntity;
+use Auth\Entity\User\Account;
 use Doctrine\Common\Collections\Collection;
 use Zend\Session\Container as SessionContainer;
 
@@ -52,6 +53,26 @@ class Container
         }
 
         $this->sessionContainer->roles[] = $role;
+    }
+
+    /**
+     *  Ustawia konto
+     *
+     * @param Account $entity
+     */
+    public function setAccount(Account $entity)
+    {
+        $this->sessionContainer->accountId = $entity->getId();
+    }
+
+    /**
+     *  Zwraca identyfikator konta klienta
+     *
+     * @return integer
+     */
+    public function getAccountId()
+    {
+        return $this->sessionContainer->accountId;
     }
 
     /**
